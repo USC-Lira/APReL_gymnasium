@@ -1,4 +1,4 @@
-import aprel
+import gymnasium as gym
 import numpy as np
 
 import aprel
@@ -24,14 +24,11 @@ def feature_func(traj):
 
 def main(args):
     # Create the OpenAI Gym environment
-    gym_env = gym.make(args["env"])
-
-    # Seed for reproducibility
-    np.random.seed(args["seed"])
-    gym_env.seed(args["seed"])
+    gym_env = gym.make(args["env"], render_mode="rgb_array")
 
     # Wrap the environment with a feature function
     env = aprel.Environment(gym_env, args["feature_func"])
+    env.reset(seed=args["seed"])
 
     # Create a trajectory set
     trajectory_set = aprel.generate_trajectories_randomly(
@@ -131,6 +128,7 @@ if __name__ == "__main__":
         "--env",
         type=str,
         required=True,
+        default="MountainCarContinuous-v0",
         help="The name of the OpenAI Gym environment.",
     )
     parser.add_argument(

@@ -1,7 +1,8 @@
 """Environment-related modules."""
 
 from typing import Callable
-import gym
+
+import gymnasium as gym
 
 
 class Environment:

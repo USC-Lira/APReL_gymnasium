@@ -1,13 +1,11 @@
-import gym
+import gymnasium as gym
 import numpy as np
 
 import aprel
 
 env_name = "MountainCarContinuous-v0"
-gym_env = gym.make(env_name)
-
-np.random.seed(0)
-gym_env.seed(0)
+gym_env = gym.make(env_name, render_mode="rgb_array")
+seed = 0
 
 
 def feature_func(traj):
@@ -29,9 +27,14 @@ def feature_func(traj):
 
 
 env = aprel.Environment(gym_env, feature_func)
+env.reset(seed=seed)  # gymnasium: call reset w/ seed after init and never again
 
 trajectory_set = aprel.generate_trajectories_randomly(
-    env, num_trajectories=10, max_episode_length=300, file_name=env_name, seed=0
+    env,
+    num_trajectories=10,
+    max_episode_length=300,
+    file_name=env_name,
+    seed=seed,
 )
 features_dim = len(trajectory_set[0].features)
 
@@ -46,6 +49,7 @@ print("Estimated user parameters: " + str(belief.mean))
 
 query = aprel.PreferenceQuery(trajectory_set[:2])
 
+# Active learning loop
 for query_no in range(10):
     queries, objective_values = query_optimizer.optimize(
         "mutual_information", belief, query

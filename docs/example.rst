@@ -9,7 +9,7 @@ We first import **APReL** and the other necessary libraries. `Gym library <https
 
     import aprel
     import numpy as np
-    import gym
+    import gymnasium as gym
 
 
 In this example, we will be using the `MountainCarContinuous-v0 <https://gym.openai.com/envs/MountainCarContinuous-v0/>`_ environment. Let's create an environment object and set the random seeds for reproducibility:
@@ -17,10 +17,8 @@ In this example, we will be using the `MountainCarContinuous-v0 <https://gym.ope
 .. code-block:: python
 
     env_name = 'MountainCarContinuous-v0'
-    gym_env = gym.make(env_name)
-    np.random.seed(0)
-    env.seed(0)
-
+    gym_env = gym.make(env_name, render_mode="rgb_array")
+    seed = 0
 
 The original goal in `MountainCarContinuous-v0 <https://gym.openai.com/envs/MountainCarContinuous-v0/>`_ is to move the car such that it reaches the yellow flag.
 
@@ -59,15 +57,19 @@ We are now ready to wrap the environment into an **APReL** environment along wit
 .. code-block:: python
 
     env = aprel.Environment(gym_env, feature_func)
-
+    env.reset(seed=seed)
 
 **APReL** comes with a query optimizer that works over a predefined set of trajectories. For this, let's create a trajectory set that consists of 10 randomly generated trajectories:
 
 .. code-block:: python
 
-    trajectory_set = aprel.generate_trajectories_randomly(env, num_trajectories=10,
-                                                          max_episode_length=300,
-                                                          file_name=env_name, seed=0)
+    trajectory_set = aprel.generate_trajectories_randomly(
+        env,
+        num_trajectories=10,
+        max_episode_length=300,
+        file_name=env_name,
+        seed=seed,
+    )
     features_dim = len(trajectory_set[0].features)
 
 
