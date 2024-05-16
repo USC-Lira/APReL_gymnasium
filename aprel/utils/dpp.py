@@ -33,10 +33,10 @@ class ScoredKernel(Kernel):
         if len(q_ids.shape) < 1:
             q_ids = np.array([q_ids])
 
-        D = self.distances[np.ix_(p_ids,q_ids)] ** 2
+        D = self.distances[np.ix_(p_ids, q_ids)] ** 2
 
         # Readable version: D = np.array([[np.dot(p-q, p-q) for q in qs] for p in ps])
-        D = np.exp(-D / (2 * self.R ** 2))
+        D = np.exp(-D / (2 * self.R**2))
 
         # I added the below line to have different sample scores
         D = ((D * self.scores[p_ids]).T * self.scores[q_ids]).T
@@ -50,7 +50,12 @@ class Sampler(object):
         self.distances = distances
         self.k = k
         # norms will hold the diagonals of the kernel
-        self.norms = np.array([self.kernel[p_id, p_id][0][0] for p_id in range(len(self.distances))])
+        self.norms = np.array(
+            [
+                self.kernel[p_id, p_id][0][0]
+                for p_id in range(len(self.distances))
+            ]
+        )
         self.clear()
 
     def clear(self):
@@ -62,13 +67,18 @@ class Sampler(object):
     def append(self, ind):
         if len(self.S) == 0:
             self.S = [ind]
-            self.M = np.array([[1. / self.norms[ind]]])
+            self.M = np.array([[1.0 / self.norms[ind]]])
         else:
             u = self.kernel[self.S, ind]
             # Compute Schur complement inverse
             v = np.dot(self.M, u)
-            scInv = 1. / (self.norms[ind] - np.dot(u.T, v))
-            self.M = np.block([[self.M + scInv * np.outer(v, v), -scInv * v], [-scInv * v.T, scInv]])
+            scInv = 1.0 / (self.norms[ind] - np.dot(u.T, v))
+            self.M = np.block(
+                [
+                    [self.M + scInv * np.outer(v, v), -scInv * v],
+                    [-scInv * v.T, scInv],
+                ]
+            )
             self.S.append(ind)
 
     def ratios(self, item_ids=None):
@@ -94,7 +104,7 @@ class Sampler(object):
 def setup_sampler(distances, scores, k):
     dn = np.array(distances)
     dn_flat = dn[np.tril_indices(len(dn))]
-    R = np.mean(np.min(np.random.choice(dn_flat, (1000,k)), axis=1))
+    R = np.mean(np.min(np.random.choice(dn_flat, (1000, k)), axis=1))
     s = Sampler(ScoredKernel(R, distances, scores), distances, k)
     s.warmStart()
     return s

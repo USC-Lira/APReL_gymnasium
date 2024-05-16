@@ -8,12 +8,12 @@ class Environment:
     """
     This is a wrapper around an OpenAI Gym environment, so that
     we can store the features function along with the environment itself.
-    
+
     Parameters:
         env (gym.Env): An OpenAi Gym environment.
         features (Callable):  Given a :class:`.Trajectory`, this function
             must return a :class:`numpy.array` of features.
-    
+
     Attributes:
         env (gym.Env): The wrapped environment.
         features (Callable): Features function.
@@ -26,6 +26,7 @@ class Environment:
         close (Callable): Inherits from :py:attr:`env`, if it exists; None otherwise.
         close_exists (bool): True if :py:attr:`close` exists.
     """
+
     def __init__(self, env: gym.Env, feature_func: Callable):
         self.env = env
         self.features = feature_func

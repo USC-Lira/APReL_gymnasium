@@ -9,10 +9,24 @@ from aprel.learning.data_types import PreferenceQuery, Preference
 from aprel.learning.data_types import WeakComparisonQuery, WeakComparison
 from aprel.learning.data_types import FullRankingQuery, FullRanking
 from aprel.learning.user_models import User, SoftmaxUser, HumanUser
-from aprel.learning.belief_models import Belief, LinearRewardBelief, SamplingBasedBelief
+from aprel.learning.belief_models import (
+    Belief,
+    LinearRewardBelief,
+    SamplingBasedBelief,
+)
 
-from aprel.querying.acquisition_functions import mutual_information, volume_removal, disagreement, regret, random, thompson
-from aprel.querying.query_optimizer import QueryOptimizer, QueryOptimizerDiscreteTrajectorySet
+from aprel.querying.acquisition_functions import (
+    mutual_information,
+    volume_removal,
+    disagreement,
+    regret,
+    random,
+    thompson,
+)
+from aprel.querying.query_optimizer import (
+    QueryOptimizer,
+    QueryOptimizerDiscreteTrajectorySet,
+)
 
 from aprel.utils.generate_trajectories import generate_trajectories_randomly
 from aprel.utils.sampling_utils import uniform_logprior, gaussian_proposal

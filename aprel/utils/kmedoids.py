@@ -22,19 +22,19 @@ def kMedoids(D: np.array, k: int, tmax: int = 100) -> np.array:
     m, n = D.shape
 
     if k > n:
-        raise Exception('too many medoids')
+        raise Exception("too many medoids")
 
     # find a set of valid initial cluster medoid indices since we
     # can't seed different clusters with two points at the same location
     valid_medoid_inds = set(range(n))
     invalid_medoid_inds = set([])
-    rs,cs = np.where(D==0)
+    rs, cs = np.where(D == 0)
     # the rows, cols must be shuffled because we will keep the first duplicate below
     index_shuf = list(range(len(rs)))
     np.random.shuffle(index_shuf)
     rs = rs[index_shuf]
     cs = cs[index_shuf]
-    for r,c in zip(rs,cs):
+    for r, c in zip(rs, cs):
         # if there are two points with a distance of 0...
         # keep the first one for cluster init
         if r < c and r not in invalid_medoid_inds:
@@ -56,12 +56,12 @@ def kMedoids(D: np.array, k: int, tmax: int = 100) -> np.array:
     C = {}
     for t in range(tmax):
         # determine clusters, i. e. arrays of data indices
-        J = np.argmin(D[:,M], axis=1)
+        J = np.argmin(D[:, M], axis=1)
         for kappa in range(k):
-            C[kappa] = np.where(J==kappa)[0]
+            C[kappa] = np.where(J == kappa)[0]
         # update cluster medoids
         for kappa in range(k):
-            J = np.mean(D[np.ix_(C[kappa],C[kappa])],axis=1)
+            J = np.mean(D[np.ix_(C[kappa], C[kappa])], axis=1)
             j = np.argmin(J)
             Mnew[kappa] = C[kappa][j]
         np.sort(Mnew)
