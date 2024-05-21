@@ -1,7 +1,8 @@
 """Modules that are related to environment trajectories."""
 
-from typing import List, Tuple, Union
 import time
+from typing import List, Tuple, Union
+
 import numpy as np
 from moviepy.editor import VideoFileClip
 
@@ -93,6 +94,9 @@ class TrajectorySet:
 
     def __setitem__(self, idx: int, new_trajectory: Trajectory):
         self.trajectories[idx] = new_trajectory
+
+    def __len__(self):
+        return self.size
 
     @property
     def size(self) -> int:

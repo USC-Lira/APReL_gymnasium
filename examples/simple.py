@@ -27,7 +27,7 @@ def feature_func(traj):
 
 
 env = aprel.Environment(gym_env, feature_func)
-env.reset(seed=seed)  # gymnasium: call reset w/ seed after init and never again
+env.reset(seed=seed)  # gymnasium: call reset w/ seed only after init
 
 trajectory_set = aprel.generate_trajectories_randomly(
     env,

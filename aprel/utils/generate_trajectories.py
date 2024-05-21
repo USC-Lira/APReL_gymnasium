@@ -10,6 +10,8 @@ from moviepy.editor import ImageSequenceClip
 
 from aprel.basics import Environment, Trajectory, TrajectorySet
 
+DIR_CLIPS = "aprel_trajectories/clips"
+
 
 def generate_trajectories_randomly(
     env: Environment,
@@ -80,18 +82,17 @@ def generate_trajectories_randomly(
     if trajectories.size >= num_trajectories:
         trajectories = TrajectorySet(trajectories[:num_trajectories])
     else:
-        env_has_rgb_render = env.render_exists and not headless
-        if env_has_rgb_render and not os.path.exists(
-            "aprel_trajectories/clips"
-        ):
-            os.makedirs("aprel_trajectories/clips")
+        # env_has_rgb_render = env.render_exists and not headless
+        env_has_rgb_render = env.env.render_mode == "rgb_array" and not headless
+        if env_has_rgb_render and not os.path.exists(DIR_CLIPS):
+            os.makedirs(DIR_CLIPS)
         env.action_space.seed(seed)
         for traj_no in range(trajectories.size, num_trajectories):
             traj = []
-            obs = env.reset(seed=seed)
+            obs, _ = env.reset(seed=None)
             if env_has_rgb_render:
                 try:
-                    frames = [np.uint8(env.render(mode="rgb_array"))]
+                    frames = [np.uint8(env.render())]
                 except:
                     env_has_rgb_render = False
             done = False
@@ -99,19 +100,16 @@ def generate_trajectories_randomly(
             while not done and t < max_episode_length:
                 act = env.action_space.sample()
                 traj.append((obs, act))
-                obs, _, done, _ = env.step(act)
+                obs, _, terminated, truncated, _ = env.step(act)
+                done = terminated or truncated
                 t += 1
                 if env_has_rgb_render:
-                    frames.append(np.uint8(env.render(mode="rgb_array")))
+                    frames.append(np.uint8(env.render()))
             traj.append((obs, None))
             if env_has_rgb_render:
                 clip = ImageSequenceClip(frames, fps=30)
                 clip_path = (
-                    "aprel_trajectories/clips/"
-                    + file_name
-                    + "_"
-                    + str(traj_no)
-                    + ".mp4"
+                    DIR_CLIPS + "/" + file_name + "_" + str(traj_no) + ".mp4"
                 )
                 clip.write_videofile(clip_path, audio=False)
             else:
