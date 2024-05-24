@@ -1,14 +1,15 @@
 """Utility functions for active batch generation."""
 
 from typing import List
+
 import numpy as np
 import scipy.spatial.distance as ssd
 
 from aprel.learning import (
-    Query,
-    PreferenceQuery,
-    WeakComparisonQuery,
     FullRankingQuery,
+    PreferenceQuery,
+    Query,
+    WeakComparisonQuery,
 )
 
 

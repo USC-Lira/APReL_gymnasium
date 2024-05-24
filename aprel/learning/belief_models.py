@@ -6,9 +6,10 @@ This file contains Belief classes, which store and update the belief distributio
 """
 
 from typing import Callable, Dict, List, Tuple, Union
+
 import numpy as np
 
-from aprel.learning import User, QueryWithResponse
+from aprel.learning import QueryWithResponse, User
 from aprel.utils import gaussian_proposal, uniform_logprior
 
 

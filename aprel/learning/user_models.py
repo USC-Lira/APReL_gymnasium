@@ -1,23 +1,22 @@
 """Modules for user response models, including human users."""
 
+from copy import deepcopy
 from typing import Dict, List, Union
+
 import numpy as np
 import scipy.special as ssp
-from copy import deepcopy
 
 from aprel.basics import Trajectory, TrajectorySet
 from aprel.learning import (
-    Query,
-    PreferenceQuery,
-    WeakComparisonQuery,
-    FullRankingQuery,
-)
-from aprel.learning import (
-    QueryWithResponse,
     Demonstration,
-    Preference,
-    WeakComparison,
     FullRanking,
+    FullRankingQuery,
+    Preference,
+    PreferenceQuery,
+    Query,
+    QueryWithResponse,
+    WeakComparison,
+    WeakComparisonQuery,
 )
 
 

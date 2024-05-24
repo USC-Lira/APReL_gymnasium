@@ -1,9 +1,9 @@
 from .acquisition_functions import (
-    mutual_information,
-    volume_removal,
     disagreement,
-    regret,
+    mutual_information,
     random,
+    regret,
     thompson,
+    volume_removal,
 )
 from .query_optimizer import QueryOptimizer, QueryOptimizerDiscreteTrajectorySet

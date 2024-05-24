@@ -2,29 +2,33 @@
 This file contains classes which have functions to optimize the queries to ask the human.
 """
 
-from typing import Callable, List, Tuple
 import itertools
+import warnings
+from typing import Callable, List, Tuple
+
 import numpy as np
 from scipy.spatial import ConvexHull
-import warnings
 
 from aprel.basics import Trajectory, TrajectorySet
-from aprel.learning import Belief, SamplingBasedBelief, User, SoftmaxUser
 from aprel.learning import (
-    Query,
-    PreferenceQuery,
-    WeakComparisonQuery,
+    Belief,
     FullRankingQuery,
+    PreferenceQuery,
+    Query,
+    SamplingBasedBelief,
+    SoftmaxUser,
+    User,
+    WeakComparisonQuery,
 )
 from aprel.querying import (
-    mutual_information,
-    volume_removal,
     disagreement,
-    regret,
+    mutual_information,
     random,
+    regret,
     thompson,
+    volume_removal,
 )
-from aprel.utils import kMedoids, dpp_mode, default_query_distance
+from aprel.utils import default_query_distance, dpp_mode, kMedoids
 
 
 class QueryOptimizer:

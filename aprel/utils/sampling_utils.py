@@ -1,6 +1,7 @@
 """This module contains functions that are useful for the sampling in :class:`.SamplingBasedBelief`."""
 
 from typing import Dict
+
 import numpy as np
 
 

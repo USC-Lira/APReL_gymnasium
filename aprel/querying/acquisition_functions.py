@@ -3,16 +3,18 @@ This module contains a set of acquisition functions that determine the value of 
 which is useful for acitive query optimization.
 """
 
-from typing import List, Dict
+from typing import Dict, List
+
 import numpy as np
 
 from aprel.basics import Trajectory
-from aprel.learning import Belief, SamplingBasedBelief
 from aprel.learning import (
-    Query,
-    PreferenceQuery,
-    WeakComparisonQuery,
+    Belief,
     FullRankingQuery,
+    PreferenceQuery,
+    Query,
+    SamplingBasedBelief,
+    WeakComparisonQuery,
 )
 
 

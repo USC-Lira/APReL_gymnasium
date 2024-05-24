@@ -1,7 +1,8 @@
 """Function for K-Medoids algorithm."""
 
-import numpy as np
 import random
+
+import numpy as np
 
 
 def kMedoids(D: np.array, k: int, tmax: int = 100) -> np.array:

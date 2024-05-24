@@ -6,11 +6,12 @@ Modules for queries and user responses.
     "ROIAL: Region of Interest Active Learning for Characterizing Exoskeleton Gait Preference Landscapes", ICRA'21.
 """
 
-from typing import List, Union
-from copy import deepcopy
 import itertools
-import numpy as np
 import time
+from copy import deepcopy
+from typing import List, Union
+
+import numpy as np
 
 from aprel.basics import Trajectory, TrajectorySet
 
